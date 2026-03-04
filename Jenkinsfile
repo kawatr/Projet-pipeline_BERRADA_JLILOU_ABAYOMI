@@ -1,9 +1,7 @@
 pipeline {
     agent any
  
-    tools {
-        nodejs 'node18'
-    }
+    tools { nodejs 'node20' }
  
     environment {
         // 'HEROKU_API_KEY' est l'ID du credential "Secret Text" que vous avez créé dans Jenkins
