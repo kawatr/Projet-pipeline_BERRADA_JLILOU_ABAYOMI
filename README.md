@@ -160,4 +160,4 @@ Ce projet permet de comprendre les principes du **Pipeline as Code** :
 * développement d’une application web
 * automatisation du build
 * mise en place d’un pipeline CI/CD
-* déploiement continu avec Jenk
+* déploiement continu avec Jenkins.
