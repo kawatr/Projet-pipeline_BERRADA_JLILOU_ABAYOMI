@@ -25,10 +25,9 @@ pipeline {
     steps {
         withCredentials([string(credentialsId: 'HEROKU_API_KEY', variable: 'HEROKU_API_KEY')]) {
             sh '''
-            printf "machine git.heroku.com\nlogin heroku\npassword %s\n" "$HEROKU_API_KEY" > ~/.netrc
-            chmod 600 ~/.netrc
-            cat ~/.netrc
-            git push https://git.heroku.com/atelier-nocodes.git HEAD:main --force
+            git remote remove heroku || true
+            git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/atelier-nocodes.git
+            git push heroku HEAD:main --force
             '''
         }
     }
