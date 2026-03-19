@@ -1,35 +1,36 @@
 pipeline {
     agent any
- 
+
     tools { nodejs 'node20' }
- 
-    environment {
-        // 'HEROKU_API_KEY' est l'ID du credential "Secret Text" que vous avez créé dans Jenkins
-        HEROKU_TOKEN = credentials('HEROKU_API_KEY')
-    }
- 
+
     stages {
         stage('Install') {
             steps {
                 sh 'npm ci'
             }
         }
- 
+
         stage('Build') {
             steps {
                 sh 'npm run build'
             }
         }
- 
-       stage('Deploy Heroku') {
-    steps {
-        withCredentials([string(credentialsId: 'HEROKU_API_KEY', variable: 'HEROKU_API_KEY')]) {
-            sh '''
-            git push https://heroku:$HEROKU_API_KEY@git.heroku.com/atelier-nocodes.git HEAD:main --force
-            '''
+
+        stage('Deploy Heroku') {
+            steps {
+                withCredentials([string(credentialsId: 'HEROKU_API_KEY', variable: 'HEROKU_API_KEY')]) {
+                    sh '''
+                    # Installer Heroku CLI
+                    curl https://cli-assets.heroku.com/install.sh | sh
+
+                    # Authentification
+                    echo "machine git.heroku.com login heroku password $HEROKU_API_KEY" > ~/.netrc
+
+                    # Push vers Heroku
+                    git push https://git.heroku.com/atelier-nocodes.git HEAD:main --force
+                    '''
+                }
+            }
         }
-    }
-}
-       
     }
 }
