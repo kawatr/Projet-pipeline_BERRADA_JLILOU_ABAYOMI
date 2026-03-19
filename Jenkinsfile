@@ -21,11 +21,13 @@ pipeline {
             }
         }
  
-       stage('Deploy Heroku') {
+      stage('Deploy Heroku') {
     steps {
         withCredentials([string(credentialsId: 'HEROKU_API_KEY', variable: 'HEROKU_API_KEY')]) {
             sh '''
-            printf "machine git.heroku.com\nlogin heroku\npassword $HEROKU_API_KEY\n" > ~/.netrc
+            echo "machine git.heroku.com" > ~/.netrc
+            echo "login heroku" >> ~/.netrc
+            echo "password $HEROKU_API_KEY" >> ~/.netrc
             chmod 600 ~/.netrc
             git push https://git.heroku.com/atelier-nocodes.git HEAD:main --force
             '''
