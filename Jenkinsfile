@@ -25,8 +25,13 @@ pipeline {
     steps {
         withCredentials([string(credentialsId: 'HEROKU_API_KEY', variable: 'HEROKU_API_KEY')]) {
             sh '''
+            # Remove existing heroku remote if it exists
             git remote remove heroku || true
+            
+            # Add heroku remote with the correct authentication format
             git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/atelier-nocodes.git
+            
+            # Push to heroku
             git push heroku HEAD:main --force
             '''
         }
