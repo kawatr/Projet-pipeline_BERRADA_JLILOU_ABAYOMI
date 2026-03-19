@@ -25,7 +25,7 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'HEROKU_API_KEY', variable: 'HEROKU_TOKEN')]) {
   sh '''
-git push https://apikey:"$HEROKU_TOKEN"@git.heroku.com/atelier-nocodes.git HEAD:refs/heads/main --force  '''
+git push https://heroku:$HEROKU_API_KEY@git.heroku.com/atelier-nocodes.git HEAD:main --force  '''
 }
             }
         }
