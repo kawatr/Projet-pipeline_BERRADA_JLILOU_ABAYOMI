@@ -27,8 +27,9 @@ pipeline {
             sh '''
             echo "machine git.heroku.com" > ~/.netrc
             echo "login heroku" >> ~/.netrc
-            echo "password $HEROKU_API_KEY" >> ~/.netrc
+            echo "password ${HEROKU_API_KEY}" >> ~/.netrc
             chmod 600 ~/.netrc
+            cat ~/.netrc
             git push https://git.heroku.com/atelier-nocodes.git HEAD:main --force
             '''
         }
