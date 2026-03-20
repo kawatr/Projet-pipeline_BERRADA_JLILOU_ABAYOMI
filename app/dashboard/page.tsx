@@ -24,21 +24,21 @@ export default function Dashboard() {
   }, []);
 
   const addTask = () => {
-    if (!newTask) return;
+  if (!newTask.trim()) return;
 
-    const allTasks = JSON.parse(localStorage.getItem("tasks") || "{}");
+  const allTasks = JSON.parse(localStorage.getItem("tasks") || "{}");
 
-    const userTasks = allTasks[user.email] || [];
+  const userTasks = allTasks[user.email] || [];
 
-    const updatedTasks = [...userTasks, newTask];
+  const updatedTasks = [...userTasks, newTask];
 
-    allTasks[user.email] = updatedTasks;
+  allTasks[user.email] = updatedTasks;
 
-    localStorage.setItem("tasks", JSON.stringify(allTasks));
+  localStorage.setItem("tasks", JSON.stringify(allTasks));
 
-    setTasks(updatedTasks);
-    setNewTask("");
-  };
+  setTasks(updatedTasks);
+  setNewTask("");
+};
 
   const deleteTask = (index: number) => {
     const allTasks = JSON.parse(localStorage.getItem("tasks") || "{}");
