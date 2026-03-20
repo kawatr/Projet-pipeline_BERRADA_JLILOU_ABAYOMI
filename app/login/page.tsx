@@ -30,7 +30,7 @@ export default function Login() {
         <input placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
         <input type="password" placeholder="Mot de passe" onChange={(e) => setPassword(e.target.value)} />
 
-        <button onClick={handleLogin}>Se connecter</button>
+        <button onClick={handleLogin}>Se connecter kawtar</button>
 
         <p onClick={() => router.push("/register")} className="link">
           S'inscrire
