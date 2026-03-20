@@ -6,29 +6,57 @@ export default function Dashboard() {
   const router = useRouter();
   const [tasks, setTasks] = useState<string[]>([]);
   const [newTask, setNewTask] = useState("");
+  const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("tasks") || "[]");
-    setTasks(saved);
+    const currentUser = JSON.parse(localStorage.getItem("currentUser") || "null");
+
+    if (!currentUser) {
+      router.push("/login");
+      return;
+    }
+
+    setUser(currentUser);
+
+    const allTasks = JSON.parse(localStorage.getItem("tasks") || "{}");
+
+    setTasks(allTasks[currentUser.email] || []);
   }, []);
 
   const addTask = () => {
-    const updated = [...tasks, newTask];
-    setTasks(updated);
-    localStorage.setItem("tasks", JSON.stringify(updated));
+    if (!newTask) return;
+
+    const allTasks = JSON.parse(localStorage.getItem("tasks") || "{}");
+
+    const userTasks = allTasks[user.email] || [];
+
+    const updatedTasks = [...userTasks, newTask];
+
+    allTasks[user.email] = updatedTasks;
+
+    localStorage.setItem("tasks", JSON.stringify(allTasks));
+
+    setTasks(updatedTasks);
     setNewTask("");
   };
 
   const deleteTask = (index: number) => {
-    const updated = tasks.filter((_, i) => i !== index);
-    setTasks(updated);
-    localStorage.setItem("tasks", JSON.stringify(updated));
+    const allTasks = JSON.parse(localStorage.getItem("tasks") || "{}");
+
+    const updatedTasks = tasks.filter((_, i) => i !== index);
+
+    allTasks[user.email] = updatedTasks;
+
+    localStorage.setItem("tasks", JSON.stringify(allTasks));
+
+    setTasks(updatedTasks);
   };
 
   return (
     <div className="container">
       <div className="card">
         <h1>🎉 Dashboard</h1>
+        <p>{user?.email}</p>
 
         <button onClick={() => {
           localStorage.removeItem("currentUser");
