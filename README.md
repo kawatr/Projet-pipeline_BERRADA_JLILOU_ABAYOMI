@@ -1,4 +1,4 @@
-# Pipeline as Code – Next.js, Jenkins & Heroku
+# 🚀 Pipeline as Code – Next.js, Jenkins & Heroku
 
 ## Description
 
@@ -16,9 +16,40 @@ Le projet comprend :
 
 ---
 
+## 🌐 Application déployée
+
+👉 Lien de l’application :  
+🔗 https://atelier-nocode-d6186ae653b7.herokuapp.com
+
+### ✨ Fonctionnalités
+
+* 🔐 Authentification (inscription / connexion)
+* 📝 ToDo List dynamique
+* 💾 Sauvegarde des tâches par utilisateur (localStorage)
+* 🎨 Interface utilisateur moderne
+
+---
+
+## ⚙️ Architecture du pipeline
+
+Le pipeline suit le fonctionnement suivant :
+
+**Développeur → GitHub → Jenkins → Heroku**
+
+1. Le développeur push le code sur GitHub  
+2. Jenkins récupère le projet  
+3. Jenkins exécute le pipeline  
+4. Build de l’application  
+5. Déploiement automatique sur Heroku  
+
+---
+
 # Application Next.js
 
 L’application a été créée avec la commande :
+
+```bash
+npx create-next-app@latest
 
 ```bash
 npx create-next-app@latest
