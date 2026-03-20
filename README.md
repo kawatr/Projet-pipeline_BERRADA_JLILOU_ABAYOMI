@@ -24,7 +24,10 @@ Le projet comprend :
 ### ✨ Fonctionnalités
 
 * 🔐 Authentification (inscription / connexion)
+![Connexion](./images/image.png)
+![Inscription](./images/image2.png)
 * 📝 ToDo List dynamique
+![Dashboard](./images/image3.png)
 * 💾 Sauvegarde des tâches par utilisateur (localStorage)
 * 🎨 Interface utilisateur moderne
 
