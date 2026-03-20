@@ -6,7 +6,6 @@ export default function Dashboard() {
   const router = useRouter();
   const [tasks, setTasks] = useState<string[]>([]);
   const [newTask, setNewTask] = useState("");
-  const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
     const currentUser = JSON.parse(localStorage.getItem("currentUser") || "null");
@@ -16,54 +15,57 @@ export default function Dashboard() {
       return;
     }
 
-    setUser(currentUser);
-
     const allTasks = JSON.parse(localStorage.getItem("tasks") || "{}");
 
     setTasks(allTasks[currentUser.email] || []);
   }, []);
 
   const addTask = () => {
-  if (!newTask.trim()) return;
+    if (!newTask.trim()) return;
 
-  const allTasks = JSON.parse(localStorage.getItem("tasks") || "{}");
+    const currentUser = JSON.parse(localStorage.getItem("currentUser") || "null");
+    if (!currentUser) return;
 
-  const userTasks = allTasks[user.email] || [];
+    const allTasks = JSON.parse(localStorage.getItem("tasks") || "{}");
 
-  const updatedTasks = [...userTasks, newTask];
+    const userTasks = allTasks[currentUser.email] || [];
 
-  allTasks[user.email] = updatedTasks;
+    const updatedTasks = [...userTasks, newTask];
 
-  localStorage.setItem("tasks", JSON.stringify(allTasks));
+    allTasks[currentUser.email] = updatedTasks;
 
-  setTasks(updatedTasks);
-  setNewTask("");
-};
+    localStorage.setItem("tasks", JSON.stringify(allTasks));
+
+    setTasks(updatedTasks);
+    setNewTask("");
+  };
 
   const deleteTask = (index: number) => {
+    const currentUser = JSON.parse(localStorage.getItem("currentUser") || "null");
+    if (!currentUser) return;
+
     const allTasks = JSON.parse(localStorage.getItem("tasks") || "{}");
 
     const updatedTasks = tasks.filter((_, i) => i !== index);
 
-    allTasks[user.email] = updatedTasks;
+    allTasks[currentUser.email] = updatedTasks;
 
     localStorage.setItem("tasks", JSON.stringify(allTasks));
 
     setTasks(updatedTasks);
   };
 
+  const logout = () => {
+    localStorage.removeItem("currentUser");
+    router.push("/login");
+  };
+
   return (
     <div className="container">
       <div className="card">
         <h1>🎉 Dashboard</h1>
-        <p>{user?.email}</p>
 
-        <button onClick={() => {
-          localStorage.removeItem("currentUser");
-          router.push("/login");
-        }}>
-          Déconnexion
-        </button>
+        <button onClick={logout}>Déconnexion</button>
 
         <h2>📝 ToDo List</h2>
 
