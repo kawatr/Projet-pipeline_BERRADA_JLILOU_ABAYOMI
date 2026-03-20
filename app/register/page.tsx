@@ -1,5 +1,5 @@
 'use client'
-import { useState, CSSProperties } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function Register() {
@@ -8,38 +8,26 @@ export default function Register() {
   const router = useRouter();
 
   const handleRegister = () => {
-    localStorage.setItem("user", JSON.stringify({ email, password }));
+    const users = JSON.parse(localStorage.getItem("users") || "[]");
+
+    users.push({ email, password });
+
+    localStorage.setItem("users", JSON.stringify(users));
+
     alert("Compte créé !");
     router.push("/login");
   };
 
   return (
-    <div style={styles.container}>
-      <h1>📝 Inscription</h1>
+    <div className="container">
+      <div className="card">
+        <h1>📝 Inscription</h1>
 
-      <input
-        placeholder="Email"
-        onChange={(e) => setEmail(e.target.value)}
-      />
+        <input placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+        <input type="password" placeholder="Mot de passe" onChange={(e) => setPassword(e.target.value)} />
 
-      <input
-        type="password"
-        placeholder="Mot de passe"
-        onChange={(e) => setPassword(e.target.value)}
-      />
-
-      <button onClick={handleRegister}>Créer compte</button>
+        <button onClick={handleRegister}>Créer compte</button>
+      </div>
     </div>
   );
 }
-
-const styles: { container: CSSProperties } = {
-  container: {
-    display: "flex",
-    flexDirection: "column",
-    gap: 10,
-    width: 300,
-    margin: "100px auto",
-    textAlign: "center"
-  }
-};

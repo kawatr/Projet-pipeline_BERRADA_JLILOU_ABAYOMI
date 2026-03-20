@@ -1,5 +1,5 @@
 'use client'
-import { useState, CSSProperties } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function Login() {
@@ -8,9 +8,14 @@ export default function Login() {
   const router = useRouter();
 
   const handleLogin = () => {
-    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    const users = JSON.parse(localStorage.getItem("users") || "[]");
 
-    if (email === user.email && password === user.password) {
+    const user = users.find(
+      (u: any) => u.email === email && u.password === password
+    );
+
+    if (user) {
+      localStorage.setItem("currentUser", JSON.stringify(user));
       router.push("/dashboard");
     } else {
       alert("Identifiants incorrects");
@@ -18,40 +23,19 @@ export default function Login() {
   };
 
   return (
-    <div style={styles.container}>
-      <h1>🔐 Connexion</h1>
+    <div className="container">
+      <div className="card">
+        <h1>🔐 Connexion</h1>
 
-      <input
-        placeholder="Email"
-        onChange={(e) => setEmail(e.target.value)}
-      />
+        <input placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+        <input type="password" placeholder="Mot de passe" onChange={(e) => setPassword(e.target.value)} />
 
-      <input
-        type="password"
-        placeholder="Mot de passe"
-        onChange={(e) => setPassword(e.target.value)}
-      />
+        <button onClick={handleLogin}>Se connecter</button>
 
-      <button onClick={handleLogin}>Se connecter</button>
-
-      <p onClick={() => router.push("/register")} style={styles.link}>
-        Pas de compte ? S'inscrire
-      </p>
+        <p onClick={() => router.push("/register")} className="link">
+          S'inscrire
+        </p>
+      </div>
     </div>
   );
 }
-
-const styles: { container: CSSProperties; link: CSSProperties } = {
-  container: {
-    display: "flex",
-    flexDirection: "column",
-    gap: 10,
-    width: 300,
-    margin: "100px auto",
-    textAlign: "center"
-  },
-  link: {
-    color: "blue",
-    cursor: "pointer"
-  }
-};
